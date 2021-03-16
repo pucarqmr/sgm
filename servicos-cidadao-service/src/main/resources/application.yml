@@ -1,0 +1,30 @@
+server:
+  port: 8501
+  
+spring:
+  application:
+    name: servicos-cidadao-service
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8302/eureka/
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000    
+            
+            
+ribbon:
+  eureka:
+    enabled: true            
