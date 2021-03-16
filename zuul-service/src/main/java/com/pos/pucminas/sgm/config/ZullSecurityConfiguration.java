@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -41,7 +42,16 @@ public class ZullSecurityConfiguration extends WebSecurityConfigurerAdapter {
                             UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers(config.getUrl()).permitAll()
-                    .antMatchers("/api/servicos/**").hasRole("ADMIN");
+                    .antMatchers("/api/servicos/iptus").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.GET, "/api/servicos/iptus/segundavia/**").hasAnyRole("ADMIN", "CIDADAO")
+                    
+                    .antMatchers(HttpMethod.GET, "/api/servicos/escolas").hasAnyRole("ADMIN", "CIDADAO")
+                    
+                    .antMatchers(HttpMethod.POST, "/api/servicos/alunos").hasAnyRole("ADMIN", "CIDADAO")
+                    .antMatchers(HttpMethod.GET, "/api/servicos/alunos").hasAnyRole("ADMIN")
+                    .antMatchers(HttpMethod.GET, "/api/servicos/alunos/**").hasAnyRole("ADMIN", "CIDADAO")
+                    .antMatchers(HttpMethod.PUT, "/api/servicos/alunos/**").hasAnyRole("ADMIN", "CIDADAO")
+                    .antMatchers(HttpMethod.DELETE, "/api/servicos/alunos/**").hasAnyRole("ADMIN");
     }
 
 }
